@@ -1,0 +1,30 @@
+﻿<Window x:Class="PNCA_BIM_Suite_Library.View.ProgressLoggerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PNCA_BIM_Suite_Library.View"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Title="ProgressLoggerView"
+        Height="450"
+        Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <local:PNCATitleBar
+            Title="ScheduleSyncer : Progress Log"></local:PNCATitleBar>
+        <Grid Grid.Row="1">
+            <TextBox Name="DataUI"
+                     Margin="20"
+                     IsReadOnly="True"
+                     VerticalScrollBarVisibility="Auto"
+                     HorizontalScrollBarVisibility="Auto"
+                     TextWrapping="Wrap" />
+        </Grid>
+
+    </Grid>
+</Window>

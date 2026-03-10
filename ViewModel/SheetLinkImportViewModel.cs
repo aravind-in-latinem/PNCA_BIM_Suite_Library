@@ -1,0 +1,317 @@
+﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
+using System.Linq;
+using Microsoft.Win32;
+//using Autodesk.Revit.Creation;
+using PNCA_BIM_Suite_Library.Model;
+using System.Windows;
+using System.Text;
+using System;
+using PNCA_BIM_Suite_Library.Services;
+using PNCA_BIM_Suite_Library.View;
+
+namespace PNCA_BIM_Suite_Library.ViewModel
+{
+    public class SheetLinkImportViewModel : ViewModelBase
+    {
+        private readonly Document _document;
+        private readonly UIDocument _uiDocument;
+        private readonly System.Windows.Window _yourWindowReference;
+        private ILogger _progressLogger;
+
+        // Properties for data binding
+        private bool _isActiveViewSelected;
+        private bool _isSelectScheduleSelected;
+        private ScheduleViewItem _selectedSchedule;
+        private string _fileLocation;
+        private ObservableCollection<ScheduleViewItem> _availableSchedules;
+        private string _scheduleSearchText;
+        private ObservableCollection<ScheduleViewItem> _filteredSchedules;
+        private bool _shouldOpenDropDown;
+
+        public SheetLinkImportViewModel(Document document, UIDocument uiDocument, System.Windows.Window yourWindowReference, ILogger progressLogger)
+        {
+            _progressLogger = progressLogger;
+            _document = document;
+            _uiDocument = uiDocument;
+            _progressLogger = progressLogger;
+
+            // Initialize commands
+            ImportCommand = new RelayCommand(ExecuteImport, CanExecuteImport);
+            CancelCommand = new RelayCommand(ExecuteCancel);
+            BrowseFileLocationCommand = new RelayCommand(ExecuteBrowseFileLocation);
+
+            // Initialize properties
+            IsActiveViewSelected = true;
+            LoadAvailableSchedules();
+            FilteredSchedules = new ObservableCollection<ScheduleViewItem>(AvailableSchedules);
+            _yourWindowReference = yourWindowReference;
+            TaskDialog.Show("Warning", "For Parameters referencing an element in Revit Database, " +
+                "(i.e. a Level in Revit Model, Family & Type etc..) , Make sure you match the name of the referenced element exactly as you see in the Revit UI. ");
+        }
+        
+        
+
+        #region Properties for Binding
+
+        // Radio Button Bindings
+        public bool IsActiveViewSelected
+        {
+            get => _isActiveViewSelected;
+            set
+            {
+                if (SetProperty(ref _isActiveViewSelected, value))
+                {
+                    // When active view is selected, auto-select the current view if it's a schedule
+                    if (value && _uiDocument?.ActiveView is ViewSchedule activeSchedule)
+                    {
+                        SelectedSchedule = AvailableSchedules?
+                            .FirstOrDefault(s => s.ViewId == activeSchedule.Id);
+                    }
+                }
+            }
+        }
+
+        public bool IsSelectScheduleSelected
+        {
+            get => _isSelectScheduleSelected;
+            set
+            {
+                SetProperty(ref _isSelectScheduleSelected, value);
+                ShouldOpenDropDown = true;
+            }
+        }
+
+        // ComboBox Binding
+        public string ScheduleSearchText
+        {
+            get => _scheduleSearchText;
+            set
+            {
+                if (SetProperty(ref _scheduleSearchText, value))
+                {
+
+                    // Auto-open dropdown when text changes and there are filtered items
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        ShouldOpenDropDown = true;
+                        FilterSchedules();
+                    }
+                }
+            }
+        }
+        public bool ShouldOpenDropDown
+        {
+            get => _shouldOpenDropDown;
+            set => SetProperty(ref _shouldOpenDropDown, value);
+        }
+
+        public ObservableCollection<ScheduleViewItem> FilteredSchedules
+        {
+            get => _filteredSchedules;
+            set => SetProperty(ref _filteredSchedules, value);
+        }
+
+        public ObservableCollection<ScheduleViewItem> AvailableSchedules
+        {
+            get => _availableSchedules;
+            set => SetProperty(ref _availableSchedules, value);
+        }
+
+        public ScheduleViewItem SelectedSchedule
+        {
+            get => _selectedSchedule;
+            set
+            {
+                if (SetProperty(ref _selectedSchedule, value))
+                {
+                    // Update commands when selection changes
+                    (ImportCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
+        // TextBox Binding
+        public string FileLocation
+        {
+            get => _fileLocation;
+            set
+            {
+                if (SetProperty(ref _fileLocation, value))
+                {
+                    // Update commands when save location changes
+                    (ImportCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
+        #endregion
+
+        #region Commands for Button Binding
+
+        public ICommand ImportCommand { get; }
+        public ICommand CancelCommand { get; }
+        public ICommand BrowseFileLocationCommand { get; }
+
+        #endregion
+
+        #region Private Methods
+
+        private void LoadAvailableSchedules()
+        {
+            // Get all schedule views from the document
+            var scheduleCollector = new FilteredElementCollector(_document)
+                .OfClass(typeof(ViewSchedule))
+                .WhereElementIsNotElementType()
+                .Cast<ViewSchedule>()
+                .Where(vs => !vs.IsTemplate && vs.Name != null);
+
+            AvailableSchedules = new ObservableCollection<ScheduleViewItem>(
+                scheduleCollector.Select(schedule => new ScheduleViewItem
+                {
+                    ViewId = schedule.Id,
+                    Name = schedule.Name,
+                    Schedule = schedule
+                }).OrderBy(x => x.Name)
+            );
+        }
+        private void FilterSchedules()
+        {
+            if (string.IsNullOrWhiteSpace(ScheduleSearchText))
+            {
+                FilteredSchedules = new ObservableCollection<ScheduleViewItem>(AvailableSchedules);
+            }
+            else
+            {
+                var lowerText = ScheduleSearchText.ToLower();
+                var filtered = AvailableSchedules
+                    .Where(s => s.Name.ToLower().Contains(lowerText))
+                    .OrderBy(s => s.Name)
+                    .ToList();
+
+                FilteredSchedules = new ObservableCollection<ScheduleViewItem>(filtered);
+            }
+        }
+
+        private bool CanExecuteImport()
+        {
+            // Export can only execute when:
+            // 1. A schedule is selected OR active view is selected and current view is a schedule
+            // 2. Save location is specified
+            // 3. Save location path is valid
+
+            bool hasValidSchedule = false;
+            if (IsActiveViewSelected && !(_uiDocument?.ActiveView is ViewSchedule))
+            {
+                TaskDialog.Show("Warning", "Open the intended schedule view for easier export");
+            }
+
+            if (IsActiveViewSelected && _uiDocument?.ActiveView is ViewSchedule)
+            {
+                hasValidSchedule = true;
+            }
+            else if (IsSelectScheduleSelected && SelectedSchedule != null)
+            {
+                hasValidSchedule = true;
+            }
+
+            return hasValidSchedule &&
+                   !string.IsNullOrWhiteSpace(FileLocation) &&
+                   System.IO.Path.HasExtension(FileLocation);
+        }
+
+        private void ExecuteImport()
+        {
+            
+            try
+            {
+                ViewSchedule targetSchedule = null;
+
+                // Determine which schedule to export
+                if (IsActiveViewSelected && _uiDocument.ActiveView is ViewSchedule activeSchedule)
+                {
+                    targetSchedule = activeSchedule;
+                }
+                else if (IsSelectScheduleSelected && SelectedSchedule != null)
+                {
+                    targetSchedule = SelectedSchedule.Schedule;
+                }
+
+                if (targetSchedule == null)
+                {
+                    TaskDialog.Show("Error", "No valid schedule selected for export.");
+                    return;
+                }
+
+                // Import logic
+                ImportScheduleFromExcel(targetSchedule, FileLocation);
+                _progressLogger = new ProgressLoggerViewModel();
+            }
+            catch (System.Exception ex)
+            {
+                TaskDialog.Show("Import Error", $"Failed to import schedule: {ex.Message}");
+                return;
+            }
+        }
+
+        private void ExecuteCancel()
+        {
+            System.Windows.Window.GetWindow(_yourWindowReference)?.Close();
+        }
+
+        private void ExecuteBrowseFileLocation()
+        {
+            var saveFileDialog = new OpenFileDialog
+            {
+                Filter = "Excel Files (*.xlsx)|*.xlsx|All Files (*.*)|*.*",
+                DefaultExt = "xlsx",
+                FileName = SelectedSchedule?.Name ?? "Schedule",
+                Title = "Select Export Location"
+            };
+            bool? success = saveFileDialog.ShowDialog();
+            if (success == true )
+            {
+                FileLocation = saveFileDialog.FileName;
+            }
+        }              
+
+        private void ImportScheduleFromExcel(ViewSchedule schedule, string filePath)
+        {
+            //System.Diagnostics.Debugger.Launch();
+            var progressLoggerView = new ProgressLoggerView(_progressLogger);
+            progressLoggerView.Show();
+            var excelReader = new ExcelReader(FileLocation);
+            var checkDataTable = excelReader.ReadExcelFile();
+            _progressLogger.LogTaskCompleted("Reading Excel file complete");
+            ScheduleDataFromElementsExtractor scheduleDataFromElementsExtractor = new ScheduleDataFromElementsExtractor(schedule,_document,_progressLogger);
+            var referenceDataTable = scheduleDataFromElementsExtractor.CreateScheduleDataTable();
+            _progressLogger.LogTaskCompleted("Reference schedule data created");
+            if (!DataTableComparer.AreSchemasEqual(checkDataTable, referenceDataTable))
+            {
+                TaskDialog.Show("Import Error", "The schema of the Excel file does not match the schedule schema.");
+                return;
+            }
+            _progressLogger.LogTaskCompleted("Schema comparison completed and received a go signal");
+            var differences = DataTableComparer.GetDifferenceReport(checkDataTable, referenceDataTable,scheduleDataFromElementsExtractor);
+            _progressLogger.LogTaskCompleted("Difference Report Generated");
+            var revitDBUpdater = new RevitDBUpdater(_document, _uiDocument);
+            try
+            {
+            revitDBUpdater.UpdateRevitDB(differences,scheduleDataFromElementsExtractor);
+            _progressLogger.LogTaskCompleted("Revit Database Updated with new values for the differences");
+            }
+            catch(Exception)
+            {
+
+                TaskDialog.Show("Failed", $"Import Failed!");
+                return;
+            }
+            
+        }
+        #endregion
+    }
+    
+    
+}

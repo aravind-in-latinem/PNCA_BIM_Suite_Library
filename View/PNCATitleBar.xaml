@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="PNCA_BIM_Suite_Library.View.PNCATitleBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:PNCA_BIM_Suite_Library.View"
+             mc:Ignorable="d"
+             Height="32" MinHeight="28" d:DesignWidth="800">
+
+    <Grid>
+        <Border Background="#2B2B2B" Height="32" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+            <DockPanel LastChildFill="True">
+
+                <Image Source="{Binding TitleIcon, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                       Width="20" Height="20"
+                       Margin="10,0,6,0"
+                       VerticalAlignment="Center"/>
+
+                <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                           Foreground="White"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"
+                           TextTrimming="CharacterEllipsis"/>
+
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">
+
+                    <Button Width="36" Height="32"
+                            Background="Transparent" Foreground="White" BorderThickness="0"
+                            Click="Minimize_Click"
+                            ToolTip="Minimize">
+                        <TextBlock Text="🗕" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+
+                    <Button Width="36" Height="32"
+                            Background="Transparent" Foreground="White" BorderThickness="0"
+                            Click="Close_Click"
+                            ToolTip="Close">
+                        <TextBlock Text="🗙" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+
+                </StackPanel>
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>

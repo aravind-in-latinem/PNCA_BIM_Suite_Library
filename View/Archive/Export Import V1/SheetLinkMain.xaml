@@ -1,0 +1,114 @@
+﻿<Window x:Class="PNCA_BIM_Suite_Library.View.SheetLinkMain"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PNCA_BIM_Suite_Library.View"
+        mc:Ignorable="d"
+        Title="SheetLink - Export Schedule" Height="350" Width="566">
+
+
+
+    <Grid Background="White" Margin="0,0,0,-6">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="3*"/>
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="225"/>
+            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="5" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+            <!-- Action Buttons with Command Binding -->
+            <Button Content="Export" VerticalAlignment="Center" Height="20"
+                Command="{Binding ExportCommand}" Grid.Column="1"/>
+
+            <Button Content="Import" VerticalAlignment="Center" Height="20"
+    Command="{Binding ImportCommand}" Grid.Column="3"/>
+
+
+            <Button Content="Cancel" VerticalAlignment="Center" 
+                Grid.Column="5" Height="20"
+                Command="{Binding CancelCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+        </Grid>
+
+        <Grid Grid.Row="4" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="52"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" 
+                TextWrapping="Wrap" 
+                Text="{Binding FileLocation}"
+                VerticalAlignment="Center" Height="20"/>
+
+            <Button Content="Browse..." Grid.Column="1"
+                VerticalAlignment="Center" 
+                Height="20"
+                Command="{Binding BrowseFileLocationCommand}" Margin="0,0,0,0"/>
+        </Grid>
+
+        <Grid Row="5" Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="62"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="84"/>
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="1" Source="/PNCA_SheetLink;component/SheetLink/Resources/PNC logo.png" HorizontalAlignment="Center" Grid.Row="1" Margin="0,0,0,11" Grid.RowSpan="2" Width="83"/>
+        </Grid>
+
+
+        <!-- Radio Buttons with Binding -->
+        <RadioButton Content="Active View" 
+                    IsChecked="{Binding IsActiveViewSelected}"
+                    HorizontalAlignment="Left" VerticalAlignment="Center" 
+                    Margin="20,0,0,0" Grid.Row="1" Height="15" Width="80"/>
+
+        <RadioButton Content="Select Schedule View to Export" 
+                    IsChecked="{Binding IsSelectScheduleSelected}"
+                    HorizontalAlignment="Left" VerticalAlignment="Center" 
+                    Grid.Row="2" Height="15" Width="182" Margin="20,0,0,0"/>
+
+        <!-- ComboBox with Binding -->
+        <Label Content="Schedule View to be Exported" 
+               HorizontalAlignment="Left" Margin="20,0,0,0" 
+               Grid.Row="3" VerticalAlignment="Center" Height="26" Width="168"/>
+
+        <ComboBox Margin="0,12,0,0" 
+                 Grid.Row="3" VerticalAlignment="Top" 
+                 Grid.Column="1" Height="22"
+                 ItemsSource="{Binding AvailableSchedules}"
+                 DisplayMemberPath="Name"
+                 SelectedItem="{Binding SelectedSchedule}"
+                 IsEnabled="{Binding IsSelectScheduleSelected}"/>
+
+        <!-- Save Location with Binding -->
+        <Label Content="Save Location" 
+               HorizontalAlignment="Left" Margin="20,0,0,0" 
+               Grid.Row="4" VerticalAlignment="Center" Height="26" Width="83"/>
+
+
+    </Grid>
+</Window>
