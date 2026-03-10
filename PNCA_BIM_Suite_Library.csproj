@@ -202,6 +202,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="PNCA_BIM_Suite.addin" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -244,4 +245,8 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(TargetDir)*.*" "C:\ProgramData\Autodesk\Revit\Addins\2024\PNCA_BIM_Suite\" /E /Y
+copy "$(ProjectDir)PNCA_BIM_Suite.addin" "C:\ProgramData\Autodesk\Revit\Addins\2024\" /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

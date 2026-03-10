@@ -1,0 +1,10 @@
+﻿<RevitAddIns>
+	<AddIn Type="Application">
+		<Name>PNCA_SheetLink</Name>
+		<Assembly>C:\ProgramData\Autodesk\Revit\Addins\2024\PNCA_SheetLink\PNCA_SheetLink.dll</Assembly>
+		<AddInId>802E5622-37BB-40C8-ACC0-D4AE6E2672A6</AddInId>
+		<FullClassName>PNCA_SheetLink.App</FullClassName>
+		<VendorId>PNCA</VendorId>
+		<VendorDescription>PNCA Automation Tools</VendorDescription>
+	</AddIn>
+</RevitAddIns>
