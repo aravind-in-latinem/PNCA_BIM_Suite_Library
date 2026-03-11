@@ -24,7 +24,7 @@
                 </Grid.RowDefinitions>
                 <local:PNCATitleBar 
                     Title="ScheduleSyncer : Export Schedule with Element ID"
-                                TitleIcon="pack://application:,,,/PNCA_BIM_Suite_Library;component/SheetLink/Resources/ScheduleExportwEID-TitleBar.ico"/>
+                                TitleIcon="pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/ScheduleExportwEID-TitleBar.ico"/>
                 <local:SheetLinkUserControl
                     Grid.Row="1"
                     SaveLocation="{Binding SaveLocation, Mode=TwoWay}"

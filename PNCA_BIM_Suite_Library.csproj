@@ -142,6 +142,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\SheetLinkApplication.cs" />
     <Compile Include="Model\LookupField.cs" />
     <Compile Include="Model\ScheduledElement.cs" />
     <Compile Include="Model\ScheduledField.cs" />
