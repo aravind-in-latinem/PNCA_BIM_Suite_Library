@@ -7,19 +7,19 @@ using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using PNCA_BIM_Suite_Library.Services;
-using PNCA_BIM_Suite_Library.View;
+using PNCA_BIM_Suite_Library.Views;
 using PNCA_BIM_Suite_Library.ViewModel;
 
 namespace PNCA_BIM_Suite_Library.CommandData
 {
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    public class ScheduleWithFormattingExporter : IExternalCommand
+    public class ScheduleWithFormattingExporterCommand : IExternalCommand
 
     {
         private ILogger _logger;
 
-        public ScheduleWithFormattingExporter()
+        public ScheduleWithFormattingExporterCommand()
         {
             _logger = new ProgressLoggerViewModel();
         }

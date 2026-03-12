@@ -10,7 +10,7 @@ using System.Windows;
 using System.Text;
 using System;
 using PNCA_BIM_Suite_Library.Services;
-using PNCA_BIM_Suite_Library.View;
+using PNCA_BIM_Suite_Library.Views;
 
 namespace PNCA_BIM_Suite_Library.ViewModel
 {

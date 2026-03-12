@@ -33,12 +33,12 @@ namespace PNCA_BIM_Suite_Library.Application
             // Button
             PushButtonData buttonDataScheduleExportWEId = new PushButtonData("ScheduleExportWEId",
                 "Export Excel \r\n With Elem-ID", assemblyPath,
-                "PNCA_BIM_Suite_Library.CommandData.ScheduleWithElementIdExporter");
+                "PNCA_BIM_Suite_Library.CommandData.ScheduleWithElementIdExporterCommand");
             PushButtonData buttonDataScheduleExportWFormat = new PushButtonData("ScheduleExportWFormat",
                 "Export Excel \r\n With Formatting", assemblyPath,
-                "PNCA_BIM_Suite_Library.CommandData.ScheduleWithFormattingExporter");
+                "PNCA_BIM_Suite_Library.CommandData.ScheduleWithFormattingExporterCommand");
             PushButtonData buttonDataScheduleImport = new PushButtonData("ScheduleImport", "Import Schedule",
-                assemblyPath, "PNCA_BIM_Suite_Library.CommandData.ImportDataFromExcel");
+                assemblyPath, "PNCA_BIM_Suite_Library.CommandData.ImportDataFromExcelCommand");
 
             // Icon Path
             Uri uriScheduleExportWEId = new Uri("pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/ScheduleExportwEID-Light.ico", UriKind.Absolute);

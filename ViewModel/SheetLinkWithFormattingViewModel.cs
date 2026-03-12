@@ -8,7 +8,7 @@ using Microsoft.Win32;
 using PNCA_BIM_Suite_Library.Model;
 using PNCA_BIM_Suite_Library.CommandData;
 using PNCA_BIM_Suite_Library.Services;
-using PNCA_BIM_Suite_Library.View;
+using PNCA_BIM_Suite_Library.Views;
 
 namespace PNCA_BIM_Suite_Library.ViewModel
 {

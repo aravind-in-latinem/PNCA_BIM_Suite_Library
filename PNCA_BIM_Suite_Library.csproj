@@ -142,7 +142,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\UserManualApplication.cs" />
     <Compile Include="Application\SheetLinkApplication.cs" />
+    <Compile Include="CommandData\UserManualCommand.cs" />
     <Compile Include="Model\LookupField.cs" />
     <Compile Include="Model\ScheduledElement.cs" />
     <Compile Include="Model\ScheduledField.cs" />
@@ -160,9 +162,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="CommandData\ImportDataFromExcel.cs" />
-    <Compile Include="CommandData\ScheduleWithElementIdExporter.cs" />
-    <Compile Include="CommandData\ScheduleWithFormattingExporter.cs" />
+    <Compile Include="CommandData\ImportDataFromExcelCommand.cs" />
+    <Compile Include="CommandData\ScheduleWithElementIdExporterCommand.cs" />
+    <Compile Include="CommandData\ScheduleWithFormattingExporterCommand.cs" />
     <Compile Include="Services\DataTableComparer.cs" />
     <Compile Include="Services\DataTableCreator.cs" />
     <Compile Include="Services\ExcelReader.cs" />
@@ -180,24 +182,34 @@
     <Compile Include="ViewModel\SheetLinkImportViewModel.cs" />
     <Compile Include="ViewModel\SheetLinkWithFormattingViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
-    <Compile Include="View\PNCATitleBar.xaml.cs">
+    <Compile Include="Views\CreateViewsWindow.xaml.cs">
+      <DependentUpon>CreateViewsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DuplicateViewsWindow.xaml.cs">
+      <DependentUpon>DuplicateViewsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PNCATitleBar.xaml.cs">
       <DependentUpon>PNCATitleBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ProgressLoggerView.xaml.cs">
+    <Compile Include="Views\ProgressLoggerView.xaml.cs">
       <DependentUpon>ProgressLoggerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\SheetLinkExport.xaml.cs">
+    <Compile Include="Views\SheetLinkExport.xaml.cs">
       <DependentUpon>SheetLinkExport.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\SheetLinkImport.xaml.cs">
+    <Compile Include="Views\SheetLinkImport.xaml.cs">
       <DependentUpon>SheetLinkImport.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\SheetLinkUserControl.xaml.cs">
+    <Compile Include="Views\SheetLinkUserControl.xaml.cs">
       <DependentUpon>SheetLinkUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\SheetLinkWithFormatting.xaml.cs">
+    <Compile Include="Views\SheetLinkWithFormatting.xaml.cs">
       <DependentUpon>SheetLinkWithFormatting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TitleBar.xaml.cs">
+      <DependentUpon>TitleBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ViewTypeWrapper.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -219,32 +231,50 @@
     <Resource Include="Resources\SheetLinkImport-TitleBar.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="View\PNCATitleBar.xaml">
+    <Page Include="Views\CreateViewsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\ProgressLoggerView.xaml">
+    <Page Include="Views\DuplicateViewsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\SheetLinkExport.xaml">
+    <Page Include="Views\PNCATitleBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\SheetLinkImport.xaml">
+    <Page Include="Views\ProgressLoggerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\SheetLinkUserControl.xaml">
+    <Page Include="Views\SheetLinkExport.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\SheetLinkWithFormatting.xaml">
+    <Page Include="Views\SheetLinkImport.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SheetLinkUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SheetLinkWithFormatting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TitleBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\UserManual.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\pncicon.ico" />
+    <Resource Include="Resources\ViewGEN-Titlebar.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)*.*" "C:\ProgramData\Autodesk\Revit\Addins\2024\PNCA_BIM_Suite\" /E /Y

@@ -8,21 +8,21 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using PNCA_BIM_Suite_Library.Model;
 using PNCA_BIM_Suite_Library.Services;
-using PNCA_BIM_Suite_Library.View;
+using PNCA_BIM_Suite_Library.Views;
 using PNCA_BIM_Suite_Library.ViewModel;
 
 namespace PNCA_BIM_Suite_Library.CommandData
 {
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    public class ImportDataFromExcel : IExternalCommand
+    public class ImportDataFromExcelCommand : IExternalCommand
 
     {
         private static ILogger _logger;
         private Document _document;
         private string _status;
         private UserLogData _userLogData;
-        public ImportDataFromExcel()
+        public ImportDataFromExcelCommand()
         {
             _logger = new ProgressLoggerViewModel();
             _userLogData = new UserLogData();
