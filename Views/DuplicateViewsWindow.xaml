@@ -18,7 +18,7 @@
                 TitleBarText="Duplicate Views"
                 Minimize_Click="{Binding Minimize_Click}"
                 Close_Click="{Binding Close_Click}"
-                                IconPath="pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/ViewDuplicator-Light.png" Loaded="TitleBar_Loaded"
+                                IconPath="pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/ViewDuplicator-Titlebar.png" Loaded="TitleBar_Loaded"
                 />
                 
             </Border>

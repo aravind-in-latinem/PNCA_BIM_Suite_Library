@@ -142,8 +142,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\ViewCreatorApplication.cs" />
     <Compile Include="Application\UserManualApplication.cs" />
     <Compile Include="Application\SheetLinkApplication.cs" />
+    <Compile Include="CommandData\CreateViewsFromLevelsCommand.cs" />
+    <Compile Include="CommandData\DuplicateViewsCommand.cs" />
     <Compile Include="CommandData\UserManualCommand.cs" />
     <Compile Include="Model\LookupField.cs" />
     <Compile Include="Model\ScheduledElement.cs" />
@@ -274,6 +277,11 @@
   <ItemGroup>
     <Resource Include="Resources\pncicon.ico" />
     <Resource Include="Resources\ViewGEN-Titlebar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ViewDuplicator-Titlebar.tiff" />
+    <Resource Include="Resources\ViewDuplicator-Light.ico" />
+    <Resource Include="Resources\ViewGEN-Light.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

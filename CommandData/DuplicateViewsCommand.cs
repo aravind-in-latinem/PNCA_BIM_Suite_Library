@@ -1,8 +1,9 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using PNCA_BIM_Suite_Library.Views;
 
-namespace ViewsCreation
+namespace PNCA_BIM_Suite_Library.CommandData
 {
     [Transaction(TransactionMode.Manual)]
     public class DuplicateViewsCommand : IExternalCommand
