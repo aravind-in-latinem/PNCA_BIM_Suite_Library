@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using Autodesk.Revit.DB;
@@ -77,6 +78,7 @@ namespace PNCA_BIM_Suite_Library.Views
             string numberOfSheetsText = NumberOfSheetsTextBox.Text?.Trim();
             string sheetName = SheetNameTextBox.Text?.Trim();
             string sheetNumber = SheetNumberTextBox.Text?.Trim();
+            var errorCollection = new StringBuilder();
             var selectedTitleBlock = UserTitleBlockDropDown.SelectedItem as FamilySymbol;
 
             if(!int.TryParse(numberOfSheetsText, out int numberOfSheets) || numberOfSheets <= 0)
@@ -170,15 +172,16 @@ namespace PNCA_BIM_Suite_Library.Views
             catch (Autodesk.Revit.Exceptions.ArgumentException ex)
             {
                 // Commonly thrown if a duplicate Sheet Number sneaks in
-                MessageBox.Show("Revit rejected a value (often due to duplicate Sheet Numbers).\n\n" +
-                                "Details:\n" + ex.Message,
-                                "Could not create some sheets",
-                                MessageBoxButton.OK, MessageBoxImage.Error);
+                errorCollection.AppendLine("Revit rejected a value (often due to duplicate Sheet Numbers).\n\n" +
+                                           "Details:\n" + ex.Message);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Something went wrong while creating sheets.\n\n" + ex.Message,
-                                "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                errorCollection.AppendLine(ex.Message);
+            }
+            if(errorCollection.Length > 0)
+            {
+                MessageBox.Show("Some sheets may not have been created due to the following errors:\n\n" + errorCollection.ToString(), "Errors Occurred", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
