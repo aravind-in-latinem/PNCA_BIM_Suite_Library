@@ -209,9 +209,6 @@
     <Compile Include="Views\SheetLinkWithFormatting.xaml.cs">
       <DependentUpon>SheetLinkWithFormatting.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TitleBar.xaml.cs">
-      <DependentUpon>TitleBar.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ViewTypeWrapper.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -263,10 +260,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SheetLinkWithFormatting.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\TitleBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
