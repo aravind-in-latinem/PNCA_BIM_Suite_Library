@@ -40,7 +40,7 @@ namespace PNCA_BIM_Suite_Library.CommandData
                 _document = uiDocument.Document;
                 
 
-                var importWindow = new SheetLinkImport(_document, uiDocument, _logger);
+                var importWindow = new ScheduleImport(_document, uiDocument, _logger);
 
                 // Set owner to Revit window so it stays on top and modal
                 System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(importWindow);

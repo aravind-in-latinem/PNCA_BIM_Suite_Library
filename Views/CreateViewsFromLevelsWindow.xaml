@@ -1,4 +1,4 @@
-﻿<Window x:Class="PNCA_BIM_Suite_Library.Views.CreateViewsWindow"
+﻿<Window x:Class="PNCA_BIM_Suite_Library.Views.CreateViewsFromLevelsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:PNCA_BIM_Suite_Library.Views"
@@ -21,7 +21,7 @@
                     DockPanel.Dock="Top"
                     MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
                 <local:PNCATitleBar Title="Create Views"
-                                    TitleIcon="pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/ViewGEN-Titlebar.png" />
+                                    TitleIcon="pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/CreateViewsFromLevels-Titlebar.png" />
 
             </Border>
             <Grid Margin="10">

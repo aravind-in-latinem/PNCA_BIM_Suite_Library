@@ -5,20 +5,21 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Autodesk.Revit.DB;
+using PNCA_BIM_Suite_Library.Model;
 
 
 namespace PNCA_BIM_Suite_Library.Views
 {
     /// <summary>
-    /// Interaction logic for CreateViewsWindow.xaml
+    /// Interaction logic for CreateViewsFromLevelsWindow.xaml
     /// </summary>
-    public partial class CreateViewsWindow : Window
+    public partial class CreateViewsFromLevelsWindow : Window
     {
         private Document _document;
         private List<Level> _alllevels;
         public ICommand Close_Click { get; }
         public ICommand Minimize_Click { get; }
-        public CreateViewsWindow(Document document)
+        public CreateViewsFromLevelsWindow(Document document)
         {
             InitializeComponent();
             _document = document;

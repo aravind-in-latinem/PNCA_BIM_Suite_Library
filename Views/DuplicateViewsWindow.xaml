@@ -21,7 +21,7 @@
                     DockPanel.Dock="Top"
                     MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
                 <local:PNCATitleBar Title="Duplicate Views"
-                                    TitleIcon="pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/ViewDuplicator-Titlebar.tiff"
+                                    TitleIcon="pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/DuplicateViews-Titlebar.tiff"
                                     Loaded="TitleBar_Loaded" />
 
             </Border>

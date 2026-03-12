@@ -6,17 +6,19 @@ using System.Linq;
 using Microsoft.Win32;
 //using Autodesk.Revit.Creation;
 using PNCA_BIM_Suite_Library.Model;
+using PNCA_BIM_Suite_Library.CommandData;
 using PNCA_BIM_Suite_Library.Services;
 using PNCA_BIM_Suite_Library.Views;
 
 namespace PNCA_BIM_Suite_Library.ViewModel
 {
-    public class SheetLinkExportViewModel : ViewModelBase
+    public class ScheduleWithFormattingExporterViewModel : ViewModelBase
     {
         private readonly Document _document;
         private readonly UIDocument _uiDocument;
         private readonly System.Windows.Window _yourWindowReference;
         private ILogger _progressLogger;
+
         // Properties for data binding
         private bool _isActiveViewSelected;
         private bool _isSelectScheduleSelected;
@@ -26,11 +28,13 @@ namespace PNCA_BIM_Suite_Library.ViewModel
         private string _scheduleSearchText;
         private ObservableCollection<ScheduleViewItem> _filteredSchedules;
         private bool _shouldOpenDropDown;
-        public SheetLinkExportViewModel(Document document, UIDocument uiDocument, System.Windows.Window yourWindowReference, ILogger progressLogger)
+
+        public ScheduleWithFormattingExporterViewModel(Document document, UIDocument uiDocument, System.Windows.Window yourWindowReference, ILogger progressLogger)
         {
             _document = document;
             _uiDocument = uiDocument;
             _progressLogger = progressLogger;
+
             // Initialize commands
             ExportCommand = new RelayCommand(ExecuteExport, CanExecuteExport);
             CancelCommand = new RelayCommand(ExecuteCancel);
@@ -42,6 +46,8 @@ namespace PNCA_BIM_Suite_Library.ViewModel
             FilteredSchedules = new ObservableCollection<ScheduleViewItem>(AvailableSchedules);
             _yourWindowReference = yourWindowReference;
         }
+        
+        
 
         #region Properties for Binding
 
@@ -66,8 +72,8 @@ namespace PNCA_BIM_Suite_Library.ViewModel
         public bool IsSelectScheduleSelected
         {
             get => _isSelectScheduleSelected;
-            set 
-            { 
+            set
+            {
                 SetProperty(ref _isSelectScheduleSelected, value);
                 ShouldOpenDropDown = true;
             }
@@ -183,7 +189,6 @@ namespace PNCA_BIM_Suite_Library.ViewModel
                 FilteredSchedules = new ObservableCollection<ScheduleViewItem>(filtered);
             }
         }
-
         private bool CanExecuteExport()
         {
             // Export can only execute when:
@@ -192,6 +197,7 @@ namespace PNCA_BIM_Suite_Library.ViewModel
             // 3. Save location path is valid
 
             bool hasValidSchedule = false;
+
             if (IsActiveViewSelected && !(_uiDocument?.ActiveView is ViewSchedule))
             {
                 TaskDialog.Show("Warning", "Open the intended schedule view for easier export");
@@ -233,11 +239,10 @@ namespace PNCA_BIM_Suite_Library.ViewModel
                     return;
                 }
 
-                // Export logic
+                // Export logic here
                 ExportScheduleToExcel(targetSchedule, SaveLocation);
                 System.Diagnostics.Process.Start(SaveLocation);
                 _progressLogger = new ProgressLoggerViewModel();
-
 
 
             }
@@ -245,7 +250,6 @@ namespace PNCA_BIM_Suite_Library.ViewModel
             {
                 TaskDialog.Show("Export Error", $"Failed to export schedule: {ex.Message}");
             }
-
         }
 
         private void ExecuteCancel()
@@ -274,11 +278,11 @@ namespace PNCA_BIM_Suite_Library.ViewModel
         {
             var progressLoggerView = new ProgressLoggerView(_progressLogger);
             progressLoggerView.Show();
-            ScheduleDataFromElementsExtractor scheduleDataFromElementsExtractor = new ScheduleDataFromElementsExtractor(schedule, _document, _progressLogger);
-            var dataTableData = scheduleDataFromElementsExtractor.CreateScheduleDataTable();
-            _progressLogger.LogTaskCompleted("Schedule data extraction complete. Proceed for writing..");
+            var schedulewithFormatting = new ScheduleWithFormattingExtractor();
+            var dataTable = schedulewithFormatting.GetDataTableWithRevitFormatting(_document, schedule, _progressLogger);
+            _progressLogger.LogTaskCompleted("Schedule data extracted from Revit");
             ExcelWriter writer = new ExcelWriter(filePath);
-            writer.CreateExcelFile(dataTableData);
+            writer.CreateExcelFile(dataTable);
             _progressLogger.LogTaskCompleted("Excel file created successfully");
         }
 

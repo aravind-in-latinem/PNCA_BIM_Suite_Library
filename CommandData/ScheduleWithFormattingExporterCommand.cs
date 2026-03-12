@@ -31,7 +31,7 @@ namespace PNCA_BIM_Suite_Library.CommandData
             var document = uiDocument.Document;
 
 
-            var sheetLinkWithFormatting = new SheetLinkWithFormatting(document, uiDocument, _logger);
+            var sheetLinkWithFormatting = new ScheduleWithFormattingExporterView(document, uiDocument, _logger);
 
             // Set owner to Revit window so it stays on top and modal
             System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(sheetLinkWithFormatting);

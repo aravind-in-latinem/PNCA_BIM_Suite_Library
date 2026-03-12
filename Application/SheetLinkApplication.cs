@@ -43,7 +43,7 @@ namespace PNCA_BIM_Suite_Library.Application
             // Icon Path
             Uri uriScheduleExportWEId = new Uri("pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/ScheduleExportwEID-Light.ico", UriKind.Absolute);
             Uri uriScheduleExportWFormat = new Uri("pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/ScheduleExportwFormatting-Light.ico", UriKind.Absolute);
-            Uri uriScheduleImport = new Uri("pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/SheetLinkImport-Light.ico", UriKind.Absolute);
+            Uri uriScheduleImport = new Uri("pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/ScheduleImport-Light.ico", UriKind.Absolute);
             
             // To add Large Image for Button
             BitmapImage iconScheduleExportWEId = new BitmapImage(uriScheduleExportWEId);

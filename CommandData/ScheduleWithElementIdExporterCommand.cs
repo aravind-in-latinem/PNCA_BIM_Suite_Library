@@ -47,7 +47,7 @@ namespace PNCA_BIM_Suite_Library.CommandData
 
 
                 // Create and show your window
-                var mainWindow = new SheetLinkExport(_document, uiDocument, _logger);
+                var mainWindow = new ScheduleWithEIDExporterView(_document, uiDocument, _logger);
 
                 // Set owner to Revit window so it stays on top and modal
                 System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(mainWindow);

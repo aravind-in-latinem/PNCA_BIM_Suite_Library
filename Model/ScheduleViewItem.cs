@@ -1,6 +1,6 @@
 ﻿using Autodesk.Revit.DB;
 
-namespace PNCA_BIM_Suite_Library.ViewModel
+namespace PNCA_BIM_Suite_Library.Model
 {
     // Helper class for ComboBox items
     public class ScheduleViewItem

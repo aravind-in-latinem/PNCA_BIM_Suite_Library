@@ -14,7 +14,7 @@ using PNCA_BIM_Suite_Library.Views;
 
 namespace PNCA_BIM_Suite_Library.ViewModel
 {
-    public class SheetLinkImportViewModel : ViewModelBase
+    public class ScheduleImportViewModel : ViewModelBase
     {
         private readonly Document _document;
         private readonly UIDocument _uiDocument;
@@ -31,7 +31,7 @@ namespace PNCA_BIM_Suite_Library.ViewModel
         private ObservableCollection<ScheduleViewItem> _filteredSchedules;
         private bool _shouldOpenDropDown;
 
-        public SheetLinkImportViewModel(Document document, UIDocument uiDocument, System.Windows.Window yourWindowReference, ILogger progressLogger)
+        public ScheduleImportViewModel(Document document, UIDocument uiDocument, System.Windows.Window yourWindowReference, ILogger progressLogger)
         {
             _progressLogger = progressLogger;
             _document = document;

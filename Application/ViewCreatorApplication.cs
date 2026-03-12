@@ -40,8 +40,8 @@ namespace PNCA_BIM_Suite_Library.Application
             
 
             // Icon Path
-            Uri uriViewCreator = new Uri("pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/ViewGEN-Light.ico", UriKind.Absolute);
-            Uri uriViewDuplicator = new Uri("pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/ViewDuplicator-Light.ico", UriKind.Absolute);
+            Uri uriViewCreator = new Uri("pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/CreateViewsFromLevels-Light.ico", UriKind.Absolute);
+            Uri uriViewDuplicator = new Uri("pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/DuplicateViews-Light.ico", UriKind.Absolute);
             
             
             // To add Large Image for Button

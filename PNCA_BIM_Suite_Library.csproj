@@ -142,11 +142,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\SheetCreatorApplication.cs" />
     <Compile Include="Application\ViewCreatorApplication.cs" />
     <Compile Include="Application\UserManualApplication.cs" />
     <Compile Include="Application\SheetLinkApplication.cs" />
     <Compile Include="CommandData\CreateViewsFromLevelsCommand.cs" />
     <Compile Include="CommandData\DuplicateViewsCommand.cs" />
+    <Compile Include="CommandData\SheetCreatorExcelInputCommand.cs" />
+    <Compile Include="CommandData\SheetCreatorUserInputCommand.cs" />
     <Compile Include="CommandData\UserManualCommand.cs" />
     <Compile Include="Model\LookupField.cs" />
     <Compile Include="Model\ScheduledElement.cs" />
@@ -180,16 +183,19 @@
     <Compile Include="Services\UserLogRecorder.cs" />
     <Compile Include="ViewModel\ProgressLoggerViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
-    <Compile Include="ViewModel\ScheduleViewItem.cs" />
-    <Compile Include="ViewModel\SheetLinkExportViewModel.cs" />
-    <Compile Include="ViewModel\SheetLinkImportViewModel.cs" />
-    <Compile Include="ViewModel\SheetLinkWithFormattingViewModel.cs" />
+    <Compile Include="Model\ScheduleViewItem.cs" />
+    <Compile Include="ViewModel\ScheduleWithEIDExporterViewModel.cs" />
+    <Compile Include="ViewModel\ScheduleImportViewModel.cs" />
+    <Compile Include="ViewModel\ScheduleWithFormattingExporterViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
-    <Compile Include="Views\CreateViewsWindow.xaml.cs">
-      <DependentUpon>CreateViewsWindow.xaml</DependentUpon>
+    <Compile Include="Views\CreateViewsFromLevelsWindow.xaml.cs">
+      <DependentUpon>CreateViewsFromLevelsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DuplicateViewsWindow.xaml.cs">
       <DependentUpon>DuplicateViewsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SheetCreatorExcelInput.xaml.cs">
+      <DependentUpon>SheetCreatorExcelInput.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PNCATitleBar.xaml.cs">
       <DependentUpon>PNCATitleBar.xaml</DependentUpon>
@@ -197,19 +203,22 @@
     <Compile Include="Views\ProgressLoggerView.xaml.cs">
       <DependentUpon>ProgressLoggerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SheetLinkExport.xaml.cs">
-      <DependentUpon>SheetLinkExport.xaml</DependentUpon>
+    <Compile Include="Views\ScheduleWithEIDExporterView.xaml.cs">
+      <DependentUpon>ScheduleWithEIDExporterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SheetLinkImport.xaml.cs">
-      <DependentUpon>SheetLinkImport.xaml</DependentUpon>
+    <Compile Include="Views\ScheduleImport.xaml.cs">
+      <DependentUpon>ScheduleImport.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SheetLinkUserControl.xaml.cs">
       <DependentUpon>SheetLinkUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SheetLinkWithFormatting.xaml.cs">
-      <DependentUpon>SheetLinkWithFormatting.xaml</DependentUpon>
+    <Compile Include="Views\ScheduleWithFormattingExporterView.xaml.cs">
+      <DependentUpon>ScheduleWithFormattingExporterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ViewTypeWrapper.cs" />
+    <Compile Include="Views\SheetCreatorUserInput.xaml.cs">
+      <DependentUpon>SheetCreatorUserInput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ViewTypeWrapper.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -227,15 +236,19 @@
     <Resource Include="Resources\ScheduleExportwEID-TitleBar.ico" />
     <Resource Include="Resources\ScheduleExportwFormatting-Light.ico" />
     <Resource Include="Resources\ScheduleExportwFormatting-TitleBar.ico" />
-    <Resource Include="Resources\SheetLinkImport-Light.ico" />
-    <Resource Include="Resources\SheetLinkImport-TitleBar.ico" />
+    <Resource Include="Resources\ScheduleImport-Light.ico" />
+    <Resource Include="Resources\ScheduleImport-TitleBar.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\CreateViewsWindow.xaml">
+    <Page Include="Views\CreateViewsFromLevelsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\DuplicateViewsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SheetCreatorExcelInput.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -247,11 +260,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\SheetLinkExport.xaml">
+    <Page Include="Views\ScheduleWithEIDExporterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\SheetLinkImport.xaml">
+    <Page Include="Views\ScheduleImport.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -259,7 +272,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\SheetLinkWithFormatting.xaml">
+    <Page Include="Views\ScheduleWithFormattingExporterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SheetCreatorUserInput.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -269,12 +286,20 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\pncicon.ico" />
-    <Resource Include="Resources\ViewGEN-Titlebar.png" />
+    <Resource Include="Resources\CreateViewsFromLevels-Titlebar.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\ViewDuplicator-Titlebar.tiff" />
-    <Resource Include="Resources\ViewDuplicator-Light.ico" />
-    <Resource Include="Resources\ViewGEN-Light.ico" />
+    <Resource Include="Resources\DuplicateViews-Titlebar.tiff" />
+    <Resource Include="Resources\DuplicateViews-Light.ico" />
+    <Resource Include="Resources\CreateViewsFromLevels-Light.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\SheetCreatorUserInput-Titlebar.ico" />
+    <Resource Include="Resources\SheetCreatorExcelInput-Titlebar.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\SheetCreatorUserInput-Light.ico" />
+    <Resource Include="Resources\SheetCreatorExcelInput-Light.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

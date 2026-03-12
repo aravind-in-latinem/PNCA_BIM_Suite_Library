@@ -16,8 +16,8 @@ namespace PNCA_BIM_Suite_Library.CommandData
             UIDocument uidoc = uiapp.ActiveUIDocument;
             Document doc = uidoc.Document;
 
-            CreateViewsWindow createViewsWindow = new CreateViewsWindow(doc);
-            bool? result = createViewsWindow.ShowDialog();
+            CreateViewsFromLevelsWindow createViewsFromLevelsWindow = new CreateViewsFromLevelsWindow(doc);
+            bool? result = createViewsFromLevelsWindow.ShowDialog();
 
             if (result == true)
             {
