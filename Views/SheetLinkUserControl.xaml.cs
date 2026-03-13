@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace PNCA_BIM_Suite_Library.View
+namespace PNCA_BIM_Suite_Library.Views
 {
     public partial class SheetLinkUserControl : UserControl
     {

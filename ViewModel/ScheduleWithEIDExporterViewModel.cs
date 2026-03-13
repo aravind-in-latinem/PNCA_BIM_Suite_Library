@@ -7,11 +7,11 @@ using Microsoft.Win32;
 //using Autodesk.Revit.Creation;
 using PNCA_BIM_Suite_Library.Model;
 using PNCA_BIM_Suite_Library.Services;
-using PNCA_BIM_Suite_Library.View;
+using PNCA_BIM_Suite_Library.Views;
 
 namespace PNCA_BIM_Suite_Library.ViewModel
 {
-    public class SheetLinkExportViewModel : ViewModelBase
+    public class ScheduleWithEIDExporterViewModel : ViewModelBase
     {
         private readonly Document _document;
         private readonly UIDocument _uiDocument;
@@ -26,7 +26,7 @@ namespace PNCA_BIM_Suite_Library.ViewModel
         private string _scheduleSearchText;
         private ObservableCollection<ScheduleViewItem> _filteredSchedules;
         private bool _shouldOpenDropDown;
-        public SheetLinkExportViewModel(Document document, UIDocument uiDocument, System.Windows.Window yourWindowReference, ILogger progressLogger)
+        public ScheduleWithEIDExporterViewModel(Document document, UIDocument uiDocument, System.Windows.Window yourWindowReference, ILogger progressLogger)
         {
             _document = document;
             _uiDocument = uiDocument;

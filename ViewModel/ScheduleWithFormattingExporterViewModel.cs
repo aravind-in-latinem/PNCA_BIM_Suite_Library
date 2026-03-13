@@ -6,15 +6,13 @@ using System.Linq;
 using Microsoft.Win32;
 //using Autodesk.Revit.Creation;
 using PNCA_BIM_Suite_Library.Model;
-using System.Windows;
-using System.Text;
-using System;
+using PNCA_BIM_Suite_Library.CommandData;
 using PNCA_BIM_Suite_Library.Services;
-using PNCA_BIM_Suite_Library.View;
+using PNCA_BIM_Suite_Library.Views;
 
 namespace PNCA_BIM_Suite_Library.ViewModel
 {
-    public class SheetLinkImportViewModel : ViewModelBase
+    public class ScheduleWithFormattingExporterViewModel : ViewModelBase
     {
         private readonly Document _document;
         private readonly UIDocument _uiDocument;
@@ -25,31 +23,28 @@ namespace PNCA_BIM_Suite_Library.ViewModel
         private bool _isActiveViewSelected;
         private bool _isSelectScheduleSelected;
         private ScheduleViewItem _selectedSchedule;
-        private string _fileLocation;
+        private string _saveLocation;
         private ObservableCollection<ScheduleViewItem> _availableSchedules;
         private string _scheduleSearchText;
         private ObservableCollection<ScheduleViewItem> _filteredSchedules;
         private bool _shouldOpenDropDown;
 
-        public SheetLinkImportViewModel(Document document, UIDocument uiDocument, System.Windows.Window yourWindowReference, ILogger progressLogger)
+        public ScheduleWithFormattingExporterViewModel(Document document, UIDocument uiDocument, System.Windows.Window yourWindowReference, ILogger progressLogger)
         {
-            _progressLogger = progressLogger;
             _document = document;
             _uiDocument = uiDocument;
             _progressLogger = progressLogger;
 
             // Initialize commands
-            ImportCommand = new RelayCommand(ExecuteImport, CanExecuteImport);
+            ExportCommand = new RelayCommand(ExecuteExport, CanExecuteExport);
             CancelCommand = new RelayCommand(ExecuteCancel);
-            BrowseFileLocationCommand = new RelayCommand(ExecuteBrowseFileLocation);
+            BrowseSaveLocationCommand = new RelayCommand(ExecuteBrowseSaveLocation);
 
             // Initialize properties
             IsActiveViewSelected = true;
             LoadAvailableSchedules();
             FilteredSchedules = new ObservableCollection<ScheduleViewItem>(AvailableSchedules);
             _yourWindowReference = yourWindowReference;
-            TaskDialog.Show("Warning", "For Parameters referencing an element in Revit Database, " +
-                "(i.e. a Level in Revit Model, Family & Type etc..) , Make sure you match the name of the referenced element exactly as you see in the Revit UI. ");
         }
         
         
@@ -128,21 +123,21 @@ namespace PNCA_BIM_Suite_Library.ViewModel
                 if (SetProperty(ref _selectedSchedule, value))
                 {
                     // Update commands when selection changes
-                    (ImportCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                    (ExportCommand as RelayCommand)?.RaiseCanExecuteChanged();
                 }
             }
         }
 
         // TextBox Binding
-        public string FileLocation
+        public string SaveLocation
         {
-            get => _fileLocation;
+            get => _saveLocation;
             set
             {
-                if (SetProperty(ref _fileLocation, value))
+                if (SetProperty(ref _saveLocation, value))
                 {
                     // Update commands when save location changes
-                    (ImportCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                    (ExportCommand as RelayCommand)?.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -151,9 +146,9 @@ namespace PNCA_BIM_Suite_Library.ViewModel
 
         #region Commands for Button Binding
 
-        public ICommand ImportCommand { get; }
+        public ICommand ExportCommand { get; }
         public ICommand CancelCommand { get; }
-        public ICommand BrowseFileLocationCommand { get; }
+        public ICommand BrowseSaveLocationCommand { get; }
 
         #endregion
 
@@ -194,8 +189,7 @@ namespace PNCA_BIM_Suite_Library.ViewModel
                 FilteredSchedules = new ObservableCollection<ScheduleViewItem>(filtered);
             }
         }
-
-        private bool CanExecuteImport()
+        private bool CanExecuteExport()
         {
             // Export can only execute when:
             // 1. A schedule is selected OR active view is selected and current view is a schedule
@@ -203,6 +197,7 @@ namespace PNCA_BIM_Suite_Library.ViewModel
             // 3. Save location path is valid
 
             bool hasValidSchedule = false;
+
             if (IsActiveViewSelected && !(_uiDocument?.ActiveView is ViewSchedule))
             {
                 TaskDialog.Show("Warning", "Open the intended schedule view for easier export");
@@ -218,13 +213,12 @@ namespace PNCA_BIM_Suite_Library.ViewModel
             }
 
             return hasValidSchedule &&
-                   !string.IsNullOrWhiteSpace(FileLocation) &&
-                   System.IO.Path.HasExtension(FileLocation);
+                   !string.IsNullOrWhiteSpace(SaveLocation) &&
+                   System.IO.Path.HasExtension(SaveLocation);
         }
 
-        private void ExecuteImport()
+        private void ExecuteExport()
         {
-            
             try
             {
                 ViewSchedule targetSchedule = null;
@@ -245,25 +239,28 @@ namespace PNCA_BIM_Suite_Library.ViewModel
                     return;
                 }
 
-                // Import logic
-                ImportScheduleFromExcel(targetSchedule, FileLocation);
+                // Export logic here
+                ExportScheduleToExcel(targetSchedule, SaveLocation);
+                System.Diagnostics.Process.Start(SaveLocation);
                 _progressLogger = new ProgressLoggerViewModel();
+
+
             }
             catch (System.Exception ex)
             {
-                TaskDialog.Show("Import Error", $"Failed to import schedule: {ex.Message}");
-                return;
+                TaskDialog.Show("Export Error", $"Failed to export schedule: {ex.Message}");
             }
         }
 
         private void ExecuteCancel()
         {
+            // Close the window
             System.Windows.Window.GetWindow(_yourWindowReference)?.Close();
         }
 
-        private void ExecuteBrowseFileLocation()
+        private void ExecuteBrowseSaveLocation()
         {
-            var saveFileDialog = new OpenFileDialog
+            var saveFileDialog = new SaveFileDialog
             {
                 Filter = "Excel Files (*.xlsx)|*.xlsx|All Files (*.*)|*.*",
                 DefaultExt = "xlsx",
@@ -273,45 +270,23 @@ namespace PNCA_BIM_Suite_Library.ViewModel
             bool? success = saveFileDialog.ShowDialog();
             if (success == true )
             {
-                FileLocation = saveFileDialog.FileName;
+                SaveLocation = saveFileDialog.FileName;
             }
-        }              
+        }
 
-        private void ImportScheduleFromExcel(ViewSchedule schedule, string filePath)
+        private void ExportScheduleToExcel(ViewSchedule schedule, string filePath)
         {
-            //System.Diagnostics.Debugger.Launch();
             var progressLoggerView = new ProgressLoggerView(_progressLogger);
             progressLoggerView.Show();
-            var excelReader = new ExcelReader(FileLocation);
-            var checkDataTable = excelReader.ReadExcelFile();
-            _progressLogger.LogTaskCompleted("Reading Excel file complete");
-            ScheduleDataFromElementsExtractor scheduleDataFromElementsExtractor = new ScheduleDataFromElementsExtractor(schedule,_document,_progressLogger);
-            var referenceDataTable = scheduleDataFromElementsExtractor.CreateScheduleDataTable();
-            _progressLogger.LogTaskCompleted("Reference schedule data created");
-            if (!DataTableComparer.AreSchemasEqual(checkDataTable, referenceDataTable))
-            {
-                TaskDialog.Show("Import Error", "The schema of the Excel file does not match the schedule schema.");
-                return;
-            }
-            _progressLogger.LogTaskCompleted("Schema comparison completed and received a go signal");
-            var differences = DataTableComparer.GetDifferenceReport(checkDataTable, referenceDataTable,scheduleDataFromElementsExtractor);
-            _progressLogger.LogTaskCompleted("Difference Report Generated");
-            var revitDBUpdater = new RevitDBUpdater(_document, _uiDocument);
-            try
-            {
-            revitDBUpdater.UpdateRevitDB(differences,scheduleDataFromElementsExtractor);
-            _progressLogger.LogTaskCompleted("Revit Database Updated with new values for the differences");
-            }
-            catch(Exception)
-            {
-
-                TaskDialog.Show("Failed", $"Import Failed!");
-                return;
-            }
-            
+            var schedulewithFormatting = new ScheduleWithFormattingExtractor();
+            var dataTable = schedulewithFormatting.GetDataTableWithRevitFormatting(_document, schedule, _progressLogger);
+            _progressLogger.LogTaskCompleted("Schedule data extracted from Revit");
+            ExcelWriter writer = new ExcelWriter(filePath);
+            writer.CreateExcelFile(dataTable);
+            _progressLogger.LogTaskCompleted("Excel file created successfully");
         }
+
         #endregion
     }
-    
     
 }

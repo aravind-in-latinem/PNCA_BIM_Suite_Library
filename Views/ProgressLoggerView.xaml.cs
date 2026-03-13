@@ -15,7 +15,7 @@ using Autodesk.Revit.UI.Mechanical;
 using PNCA_BIM_Suite_Library.Services;
 using PNCA_BIM_Suite_Library.ViewModel;
 
-namespace PNCA_BIM_Suite_Library.View
+namespace PNCA_BIM_Suite_Library.Views
 {
     /// <summary>
     /// Interaction logic for ProgressLoggerView.xaml

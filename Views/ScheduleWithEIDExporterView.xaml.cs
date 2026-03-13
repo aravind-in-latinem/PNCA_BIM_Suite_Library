@@ -1,19 +1,19 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using PNCA_BIM_Suite_Library.ViewModel;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using System.Windows.Input;
 using PNCA_BIM_Suite_Library.Services;
 
-namespace PNCA_BIM_Suite_Library.View
+
+namespace PNCA_BIM_Suite_Library.Views
 {
-    public partial class SheetLinkWithFormatting : Window
+    public partial class ScheduleWithEIDExporterView : Window
     {
-        public SheetLinkWithFormatting(Document document, UIDocument uiDocument, ILogger progressLogger)
+        public ScheduleWithEIDExporterView(Document document, UIDocument uiDocument,ILogger progressLogger)
         {
             InitializeComponent();
-            this.DataContext = new SheetLinkWithFormattingViewModel(document, uiDocument,this, progressLogger);
+            this.DataContext = new ScheduleWithEIDExporterViewModel(document, uiDocument,this, progressLogger);
         }
         private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -30,5 +30,6 @@ namespace PNCA_BIM_Suite_Library.View
         {
             this.WindowState = WindowState.Minimized;
         }
+
     }
 }
