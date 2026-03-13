@@ -37,7 +37,7 @@ namespace PNCA_BIM_Suite_Library.CommandData
                 UseShellExecute = true
             });
             _userLogData.Status = "Success";
-            _userLogData.Message = "User Manual opened successfully";
+            _userLogData.Message = "User Manual was referred";
             _userLogData.StopTime = DateTime.Now.ToString("HH:mm:ss");
             UserLogRecorder.SendLog(_userLogData, document);
             return Result.Succeeded;
