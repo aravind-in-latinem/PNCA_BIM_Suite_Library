@@ -50,7 +50,7 @@ namespace PNCA_BIM_Suite_Library.CommandData
 
                 // user long record creation on success
                 _userLogData.Status = "Success";
-                _userLogData.Message = "Schedule exported successfully";
+                _userLogData.Message = "Schedule imported successfully";
                 _userLogData.StopTime = DateTime.Now.ToString("HH:mm:ss");
                 UserLogRecorder.SendLog(_userLogData, _document);
 
@@ -63,7 +63,8 @@ namespace PNCA_BIM_Suite_Library.CommandData
                 
                 // user long record creation on failure
                 _userLogData.Status = "Fail";
-                _userLogData.Message = "Schedule export failed";
+                _userLogData.Message = "Schedule import failed";
+                _userLogData.StopTime = DateTime.Now.ToString("HH:mm:ss");
                 UserLogRecorder.SendLog(_userLogData, _document);
 
                 return Result.Failed;
