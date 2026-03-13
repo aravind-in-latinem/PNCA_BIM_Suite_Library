@@ -1,0 +1,235 @@
+﻿<UserControl x:Class="PNCA_BIM_Suite_Library.Views.PNCAExporter.DWFSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:PNCA_BIM_Suite_Library.Views.PNCAExporter"
+             xmlns:converter="clr-namespace:PNCA_BIM_Suite_Library.Services"
+             mc:Ignorable="d"
+             d:DesignHeight="500"
+             d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converter:EnumToBoolConverter x:Key="EnumToBoolConverter" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/PNCA_BIM_Suite_Library;component/Views/ButtonStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Background="White">
+        <GroupBox Header="DWF Settings"
+                  Style="{StaticResource BoldGroupBoxHeaderStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+
+                    <GroupBox Header="DWF Options">
+                        <StackPanel Height="Auto"
+                                    VerticalAlignment="Top">
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="10,5,10,5">
+                                <TextBlock Text="Image Format:"
+                                           Width="85" />
+                                <ComboBox Height="25"
+                                          Width="140"
+                                          ItemsSource="{Binding DWFImageFormatOptions}"
+                                          SelectedItem="{Binding SelectedDWFImageFormat}"
+                                          VerticalAlignment="Top" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="10">
+                                <TextBlock Text="Image Quality:"
+                                           Width="85" />
+                                <ComboBox Height="25"
+                                          Width="140"
+                                          VerticalAlignment="Top"
+                                          ItemsSource="{Binding DWFImageQualityOptions}"
+                                          SelectedItem="{Binding SelectedDWFImageQuality}" />
+                            </StackPanel>
+                            <CheckBox Content="Export Element Properties"
+                                      Margin="10"
+                                      IsChecked="{Binding ExportObjectData}" />
+                            <CheckBox Margin="20,5,10,5"
+                                      IsChecked="{Binding ExportAreas}"
+                                      IsEnabled="{Binding ExportObjectData}">
+                                <TextBlock Text="Export Areas as a Seperate Boundary layer"
+                                           TextWrapping="Wrap" />
+                            </CheckBox>
+
+                            <CheckBox Content="Export Textures"
+                                      Margin="10,5,10,5"
+                                      IsChecked="{Binding ExportTexture}" />
+                            <CheckBox Margin="10,5,10,5"
+                                      IsChecked="{Binding ViewsAsExternalReferences}">
+                                <TextBlock Text="Export views on sheets and links as external references"
+                                           TextWrapping="Wrap" />
+                            </CheckBox>
+                        </StackPanel>
+                    </GroupBox>
+
+                </StackPanel>
+
+                <StackPanel Grid.Column="1">
+                    <GroupBox Header="Paper Placement">
+                        <StackPanel Margin="5">
+
+                            <!-- Option 1 -->
+                            <RadioButton Content="Center on Paper"
+                                         GroupName="PaperPlacement"
+                                         Margin="5"
+                                         IsChecked="{Binding PaperPlacement,
+                         Converter={StaticResource EnumToBoolConverter},
+                         ConverterParameter=Center}" />
+
+                            <!-- Option 2 -->
+
+                            <RadioButton Content="Lower Left"
+                                         GroupName="PaperPlacement"
+                                         IsChecked="{Binding PaperPlacement,
+                             Converter={StaticResource EnumToBoolConverter},
+                             ConverterParameter=LowerLeft}"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Left"
+                                         Margin="5"
+                                         Width="81" />
+                            <!--<TextBox Width="53"
+                                         Text="{Binding OriginOffsetX}"
+                                         IsEnabled="{Binding IsCustomOffset}" />
+                                <TextBlock Text="X"
+                                           Margin="5,0" />
+
+                                <TextBox Width="53"
+                                         Text="{Binding OriginOffsetY}"
+                                         IsEnabled="{Binding IsCustomOffset}" />
+                                <TextBlock Text="Y"
+                                           Margin="5,0" />-->
+
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="Orientation">
+                        <StackPanel>
+                            <RadioButton Content="Automatic"
+                                         IsChecked="{Binding PaperOrientation,
+                                         Converter={StaticResource EnumToBoolConverter},
+                                         ConverterParameter=Auto}"
+                                         HorizontalAlignment="Left"
+                                         VerticalAlignment="Center"
+                                         Margin="10,5,10,5" />
+                            <RadioButton Content="Portrait"
+                                         IsChecked="{Binding PaperOrientation,
+                                         Converter={StaticResource EnumToBoolConverter},
+                                         ConverterParameter=Portrait}"
+                                         HorizontalAlignment="Left"
+                                         VerticalAlignment="Center"
+                                         Margin="10,5,10,5" />
+                            <RadioButton Content="Landscape"
+                                         IsChecked="{Binding PaperOrientation,
+                         Converter={StaticResource EnumToBoolConverter},
+                         ConverterParameter=Landscape}"
+                                         HorizontalAlignment="Left"
+                                         VerticalAlignment="Center"
+                                         Margin="10,5,10,5" />
+                        </StackPanel>
+
+                    </GroupBox>
+                    <GroupBox Header="Graphic Processing">
+                        <StackPanel Height="82">
+                            <RadioButton Content="Vector"
+                                         IsChecked="{Binding IsVectorProcessing}"
+                                         HorizontalAlignment="Left"
+                                         VerticalAlignment="Center"
+                                         Margin="10
+                     " />
+                            <RadioButton Content="Raster"
+                                         IsChecked="{Binding IsRasterProcessing}"
+                                         HorizontalAlignment="Left"
+                                         VerticalAlignment="Center"
+                                         Margin="10
+                     " />
+
+                        </StackPanel>
+                    </GroupBox>
+
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <GroupBox Header="Options"
+                              Grid.Column="1">
+                        <StackPanel>
+                            <CheckBox Content="View Links in blue"
+                                      IsChecked="{Binding ViewLinksInBlue}"
+                                      Margin="8,5,0,5" />
+                            <CheckBox Content="Hide ref/work planes"
+                                      IsChecked="{Binding HideReferencePlanes}"
+                                      Margin="8,5,0,5" />
+                            <CheckBox Content="Hide unreferenced view tags"
+                                      IsChecked="{Binding HideUnreferencedViewTags}"
+                                      Margin="8,5,0,5" />
+                            <CheckBox IsChecked="{Binding MaskCoincidentLines}"
+                                      Margin="8,5,0,5">
+                                <TextBlock Text="Region edges mask coincident lines"
+                                           TextWrapping="Wrap" />
+                            </CheckBox>
+                            <CheckBox Content="Hide scope boxes"
+                                      IsChecked="{Binding HideScopeBoxes}"
+                                      Margin="8,5,0,5" />
+                            <CheckBox Content="Hide crop bourdaries"
+                                      IsChecked="{Binding HideCropBoundaries}"
+                                      Margin="8,5,0,5" />
+                            <CheckBox Content="Replace halftones with thin lines"
+                                      IsChecked="{Binding ReplaceHalftoneLines}"
+                                      Margin="8,5,0,5" />
+                        </StackPanel>
+
+                    </GroupBox>
+                    <GroupBox Header="Appearance">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0"
+                                       Grid.Column="0"
+                                       Text="Raster Quality:"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,8,0"
+                                       HorizontalAlignment="Right" />
+                            <TextBlock Grid.Row="1"
+                                       Grid.Column="0"
+                                       Text="Colors:"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,8,0"
+                                       HorizontalAlignment="Right" />
+                            <ComboBox Grid.Row="0"
+                                      Grid.Column="1"
+                                      Width="80"
+                                      ItemsSource="{Binding RasterQualityOptions}"
+                                      SelectedItem="{Binding SelectedRasterQuality}"
+                                      Margin="0,5,0,5"
+                                      Height="23" />
+                            <ComboBox Grid.Row="1"
+                                      Grid.Column="1"
+                                      Width="80"
+                                      ItemsSource="{Binding ColorDepthOptions}"
+                                      SelectedItem="{Binding SelectedColorDepth}"
+                                      Margin="0,5,0,5"
+                                      Height="23" />
+
+                        </Grid>
+                    </GroupBox>
+
+                </StackPanel>
+
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

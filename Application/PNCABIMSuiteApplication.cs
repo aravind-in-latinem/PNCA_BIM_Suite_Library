@@ -18,10 +18,6 @@ namespace PNCA_BIM_Suite_Library.Application
             }
             catch { }
 
-
-
-
-
             // DLL Path
             string assemblyPath = Assembly.GetExecutingAssembly().Location;
 

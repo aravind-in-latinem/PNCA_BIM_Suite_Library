@@ -24,6 +24,7 @@ namespace PNCA_BIM_Suite_Library.CommandData
             UIApplication uiapp = commandData.Application;
             UIDocument uidoc = uiapp.ActiveUIDocument;
             Document doc = uidoc.Document;
+
             try
             {
                 DuplicateViewsWindow duplicateViewsWindow = new DuplicateViewsWindow(doc);
@@ -34,8 +35,8 @@ namespace PNCA_BIM_Suite_Library.CommandData
                 _userLogData.StopTime = DateTime.Now.ToString("HH:mm:ss");
                 UserLogRecorder.SendLog(_userLogData, doc);
                 return Result.Succeeded;
-
             }
+
             catch (Exception e)
             {
                 // user long record creation on failure

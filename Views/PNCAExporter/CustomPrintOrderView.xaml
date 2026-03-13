@@ -1,0 +1,78 @@
+﻿<Window x:Class="PNCA_BIM_Suite_Library.Views.PNCAExporter.CustomPrintOrderView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PNCA_BIM_Suite_Library.Views"
+        xmlns:pncaExporter="clr-namespace:PNCA_BIM_Suite_Library.ViewModel.PNCAExporter"
+        mc:Ignorable="d"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Title="CustomPrintOrderView"
+        Height="650"
+        Width="500">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/PNCA_BIM_Suite_Library;component/Views/ButtonStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+        <local:PNCATitleBar Title="Custom Print Order Settings" />
+        <ListBox Grid.Row="1"
+                 Margin="20"
+                 ItemsSource="{Binding SortableViews}"
+                 DisplayMemberPath="DisplayName"
+                 SelectionMode="Extended"
+                 BorderThickness="1"
+                 BorderBrush="Gray"
+                 pncaExporter:ListBoxSelectedItemsBehavior.SelectedItems="{Binding SelectedViews}" />
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal">
+            <Button Content="▲"
+                    Width="32"
+                    Command="{Binding MoveToFirstCommand}"
+                    Margin="20,0,0,0" />
+            <Button Content="⋀"
+                    Width="32"
+                    Command="{Binding MoveUpCommand}"
+                    Margin="15,0,0,0" />
+
+            <Button Content="∨"
+                    Width="32"
+                    Command="{Binding MoveDownCommand}"
+                    Margin="15,0,0,0" />
+            <Button Content="▼"
+                    Width="32"
+                    Command="{Binding MoveToLastCommand}"
+                    Margin="15,0,0,0" />
+        </StackPanel>
+        <StackPanel Grid.Row="4"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button Content="Ok"
+                    Click="Ok_Click"
+                    Style="{StaticResource ActionButtonStyle}"
+                    Width="90"
+                    Height="30"
+                    Margin="10,0,10,0" />
+            <Button Content="Cancel"
+                    Click="Cancel_Click"
+                    Style="{StaticResource ActionButtonStyle}"
+                    Width="90"
+                    Height="30"
+                    Margin="0,0,20,0" />
+
+        </StackPanel>
+
+    </Grid>
+</Window>

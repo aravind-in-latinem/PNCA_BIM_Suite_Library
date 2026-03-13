@@ -1,0 +1,385 @@
+﻿<Window x:Class="PNCA_BIM_Suite_Library.Views.PNCAExporter.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PNCA_BIM_Suite_Library.Views"
+        xmlns:vm="clr-namespace:PNCA_BIM_Suite_Library.ViewModel"
+        xmlns:pncaExporterVm="clr-namespace:PNCA_BIM_Suite_Library.ViewModel.PNCAExporter"
+        xmlns:pncaExporter="clr-namespace:PNCA_BIM_Suite_Library.Views.PNCAExporter"
+        mc:Ignorable="d"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Height="600"
+        Width="860">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/PNCA_BIM_Suite_Library;component/Views/ButtonStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- VIEW LOCATOR -->
+            <DataTemplate DataType="{x:Type pncaExporterVm:SheetSelectionViewModel}">
+                <pncaExporter:SheetSelectionView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type pncaExporterVm:ViewSelectionViewModel}">
+				<pncaExporter:ViewSelectionView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type pncaExporterVm:SettingsViewModel}">
+                <pncaExporter:SettingsView />
+            </DataTemplate>
+
+        </ResourceDictionary>
+    </Window.Resources>
+    <Border BorderThickness="1"
+            BorderBrush="#FF2C2C2D"
+            Panel.ZIndex="1000"
+            CornerRadius="0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="55" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="130" />
+            </Grid.RowDefinitions>
+            <local:PNCATitleBar Grid.Row="0"
+                                Title="PNCA Exporter"
+                                TitleIcon="pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/PDF_Exporter-Dark.tiff" />
+
+            <!-- DYNAMIC CONTENT AREA -->
+            <StackPanel Grid.Row="1"
+                        Orientation="Horizontal">
+                <TextBlock Text="Filter V/S Set: "
+                           VerticalAlignment="Center"
+                           Margin="22,0,5,0" />
+                <ComboBox Height="22"
+                          Width="350"
+                          ItemsSource="{Binding ViewSheetSetVM.ViewSheetSetCollection}"
+                          SelectedItem="{Binding SelectedViewSheetSet}"
+                          DisplayMemberPath="Name" />
+                <Button Width=" 30"
+                        Height="22"
+                        Margin="10,0,0,0"
+                        Content="..."
+                        Click="ContextMenu_Click"
+                        Style="{StaticResource ActionButtonStyle}">
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Save"
+                                      Command="{Binding SaveVSSet}" />
+
+                            <MenuItem Header="Save As…"
+                                      Command="{Binding SaveAsVSSet}" />
+
+                            <MenuItem Header="Rename…"
+                                      Command="{Binding RenameVSSet}" />
+
+                            <Separator />
+
+                            <MenuItem Header="Delete"
+                                      Command="{Binding DeleteVSSet}" />
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+                <Button Grid.Column="2"
+                        Width="80"
+                        FontSize="11"
+                        Content="Print Order"
+                        HorizontalAlignment="Left"
+                        Margin="10,0,0,0"
+                        Height="22"
+                        ToolTip="Sort Sheets/Views Manually"
+                        Command="{Binding CustomPrintOrderCommand}"
+                        Style="{StaticResource ActionButtonStyle}" />
+
+                <TextBlock Text="Search: "
+                           VerticalAlignment="Center"
+                           Margin="15,0,5,0" />
+                <TextBox Height="24"
+                         Width="185"
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <Grid Grid.Row="2">
+                <DockPanel>
+
+                    <!-- NAV BAR -->
+                    <StackPanel DockPanel.Dock="Top"
+                                Orientation="Horizontal"
+                                Background="#FAFAFA"
+                                Height="50">
+                        <Grid Width="860">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="410" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <ToggleButton Grid.Column="2"
+                                          Content="Views"
+                                          Command="{Binding NavigateCommand}"
+                                          IsChecked="{Binding IsViewsTabActive}"
+                                          CommandParameter="ViewSelectionView"
+                                          Style="{StaticResource TabToggleButtonStyle}"
+                                          Margin="2,10,0,10" />
+
+                            <ToggleButton Grid.Column="1"
+                                          Content="Sheets"
+                                          Command="{Binding NavigateCommand}"
+                                          IsChecked="{Binding IsSheetsTabActive}"
+                                          CommandParameter="SheetSelectionView"
+                                          Style="{StaticResource TabToggleButtonStyle}"
+                                          Margin="0,10,2,10" />
+
+                            <CheckBox Grid.Column="3"
+                                      Margin="25,0,0,10"
+                                      VerticalAlignment="Bottom"
+                                      Height="16"
+                                      Content="Isolate Selected Views/Sheets"
+                                      IsChecked="{Binding IsFilterChecked}" />
+                            <StackPanel Grid.Column="4"
+                                        Orientation="Horizontal">
+                                <ToggleButton IsChecked="{Binding IsHeavyModeChecked}"
+                                              Margin="0,10,2,10"
+                                              Background="#FAFAFA"
+                                              BorderBrush="#FAFAFA"
+                                              ToolTip="Toggle Quick Mode and Heavy Mode"
+                                              Style="{StaticResource AnimalToggleStyle}" />
+
+                                <Button Command="{Binding NavigateCommand}"
+                                        CommandParameter="SettingsView"
+                                        Margin="10,10,2,10"
+                                        Background="#FAFAFA"
+                                        BorderBrush="#FAFAFA">
+                                    <Image Source="pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/settings.png"
+                                           Height="24"
+                                           Width="24" />
+                                </Button>
+                                <ComboBox Width="100"
+                                          Height="30"
+                                          HorizontalAlignment="Left"
+                                          ItemsSource="{Binding SettingsProfiles}"
+                                          SelectedItem="{Binding SelectedSettingsProfile}"
+                                          DisplayMemberPath="ProfileName" />
+                                <Button Width=" 17"
+                                        Height="30"
+                                        Margin="10,0,0,0"
+                                        Content="⁝"
+                                        Click="ContextMenu_Click">
+                                    <Button.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Save"
+                                                      Command="{Binding SaveProfileCommand}" />
+
+                                            <MenuItem Header="Save As…"
+                                                      Command="{Binding SaveAsProfileCommand}" />
+                                            <MenuItem Header="Open Profiles Folder"
+                                                      Command="{Binding OpenProfilesFolderCommand}" />
+                                        </ContextMenu>
+                                    </Button.ContextMenu>
+                                </Button>
+
+                            </StackPanel>
+
+                        </Grid>
+
+                    </StackPanel>
+
+                    <!-- CONTENT DISPLAY AREA -->
+                    <ContentControl Content="{Binding CurrentView}"
+                                    Margin="20,5,20,5" />
+                </DockPanel>
+
+            </Grid>
+
+            <!-- SECOND PANEL -->
+
+            <Grid Grid.Row="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+
+                <!-- EXPORT TYPE & LOCATION SELECTION GRID-->
+
+                <Grid Grid.Row="1"
+                      VerticalAlignment="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="35" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="35" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="35" />
+                        <ColumnDefinition Width="20" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal">
+                        <Button Content="Browse"
+                                Width="60"
+                                HorizontalAlignment="Left"
+                                FontSize="14"
+                                Command="{Binding BrowseSaveLocationCommand}" />
+                        <TextBox Text="{Binding SaveLocation}"
+                                 Width="525" />
+
+                        <Button Width="30"
+                                HorizontalAlignment="Left"
+                                Command="{Binding CustomFileNameCommand}"
+                                Margin="10,0,0,0"
+                                ToolTip="Custom File Name">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <!-- Normal (Enabled) state -->
+                                    <Setter Property="Background"
+                                            Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+                                    <Setter Property="BorderBrush"
+                                            Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" />
+
+                                    <Style.Triggers>
+                                        <!-- Disabled state -->
+                                        <Trigger Property="IsEnabled"
+                                                 Value="False">
+                                            <Setter Property="Background"
+                                                    Value="White" />
+                                            <Setter Property="BorderBrush"
+                                                    Value="White" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <Image Source="pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/Custom Name Icon.png">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Opacity"
+                                                Value="1" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType=Button}}"
+                                                         Value="False">
+                                                <Setter Property="Opacity"
+                                                        Value="0.4" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </Button>
+
+                    </StackPanel>
+
+                    <CheckBox Grid.Column="3"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              IsChecked="{Binding IsPDFExportChecked}" />
+                    <Canvas Grid.Column="4"
+                            ClipToBounds="False"
+                            VerticalAlignment="Bottom">
+                        <TextBlock Text="PDF"
+                                   FontSize="8"
+                                   Canvas.Left="10"
+                                   Canvas.Top="-15"
+                                   Foreground="White"
+                                   Panel.ZIndex="1"
+                                   TextAlignment="Center" />
+
+                        <Image Source="pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/File Format Icon.tiff"
+                               Height="28"
+                               VerticalAlignment="Bottom"
+                               Grid.RowSpan="2"
+                               Canvas.Left="0"
+                               Canvas.Top="-28"
+                               Width="35" />
+                    </Canvas>
+                    <CheckBox Grid.Column="5"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              IsChecked="{Binding IsDWGExportChecked}" />
+                    <Canvas Grid.Column="6"
+                            ClipToBounds="False"
+                            VerticalAlignment="Bottom">
+                        <TextBlock Text="CAD"
+                                   FontSize="8"
+                                   Canvas.Left="10"
+                                   Canvas.Top="-15"
+                                   Foreground="White"
+                                   Panel.ZIndex="1"
+                                   TextAlignment="Center" />
+                        <Image Source="pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/File Format Icon.tiff"
+                               Height="28"
+                               VerticalAlignment="Bottom"
+                               Grid.RowSpan="2"
+                               Canvas.Left="0"
+                               Canvas.Top="-28"
+                               Width="35" />
+                    </Canvas>
+                    <CheckBox Grid.Column="7"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              IsChecked="{Binding IsDWFExportChecked}" />
+                    <Canvas Grid.Column="8"
+                            ClipToBounds="False"
+                            VerticalAlignment="Bottom"
+                            Panel.ZIndex="1">
+                        <TextBlock Text="DWF"
+                                   FontSize="8"
+                                   Canvas.Left="9"
+                                   Canvas.Top="-15"
+                                   Foreground="White"
+                                   Panel.ZIndex="1"
+                                   TextAlignment="Center" />
+                        <Image Source="pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/File Format Icon.tiff"
+                               Height="28"
+                               VerticalAlignment="Bottom"
+                               Grid.RowSpan="2"
+                               Canvas.Left="0"
+                               Canvas.Top="-28"
+                               Width="35" />
+                    </Canvas>
+
+                </Grid>
+
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="*" />
+
+                        <ColumnDefinition Width="90" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="90" />
+                        <ColumnDefinition Width="20" />
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Column="1"
+                              Content="Combine Multiple Sheets/Views to a single file"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Left"
+                              IsChecked="{Binding IsCombinedChecked}"
+                              Foreground="Black"
+                              FontSize="10" />
+
+                    <Button Content="Export"
+                            Height="30"
+                            Style="{StaticResource ActionButtonStyle}"
+                            Command="{Binding ExportCommand}"
+                            Grid.Column="2" />
+                    <Button Content="Cancel"
+                            Height="30"
+                            Style="{StaticResource ActionButtonStyle}"
+                            Click="Cancel_Click"
+                            Grid.Column="4" />
+                </Grid>
+
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
