@@ -11,7 +11,7 @@ namespace PNCA_BIM_Suite_Library.Application
         public Result OnStartup(UIControlledApplication application)
         {
             string tabName = "PNCA® BIM Suite";
-            string panelNameSheet = "Schedules & Take-offs";
+            string panelNameSchedule = "Schedules & Take-offs";
 
             // Create Tab (ignore if it already exists)
             try
@@ -21,14 +21,13 @@ namespace PNCA_BIM_Suite_Library.Application
             catch { }
 
             // Check the Existance and Create Panel
-            RibbonPanel panel = application.GetRibbonPanels(tabName).FirstOrDefault(p => p.Name == panelNameSheet);
-            if (panel == null)
+            RibbonPanel panelSchedule = application.GetRibbonPanels(tabName).FirstOrDefault(p => p.Name == panelNameSchedule);
+            if (panelSchedule == null)
             {
-                panel = application.CreateRibbonPanel(tabName, panelNameSheet);
+                panelSchedule = application.CreateRibbonPanel(tabName, panelNameSchedule);
             }
 
-            // DLL Path
-            string assemblyPath = Assembly.GetExecutingAssembly().Location;
+            
 
             // Button
             PushButtonData buttonDataScheduleExportWEId = new PushButtonData("ScheduleExportWEId",
@@ -55,9 +54,9 @@ namespace PNCA_BIM_Suite_Library.Application
 
 
             // Adding Button to the Tab
-            panel.AddItem(buttonDataScheduleExportWEId);
-            panel.AddItem(buttonDataScheduleExportWFormat);
-            panel.AddItem(buttonDataScheduleImport);
+            panelSchedule.AddItem(buttonDataScheduleExportWEId);
+            panelSchedule.AddItem(buttonDataScheduleExportWFormat);
+            panelSchedule.AddItem(buttonDataScheduleImport);
 
 
 

@@ -23,8 +23,6 @@ namespace PNCA_BIM_Suite_Library.CommandData
                 UseShellExecute = true
             });
 
-            TaskDialog.Show("Success", "Change Success");
-
             return Result.Succeeded;
         }
     }

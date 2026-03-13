@@ -11,7 +11,7 @@ namespace PNCA_BIM_Suite_Library.Application
         public Result OnStartup(UIControlledApplication application)
         {
             string tabName = "PNCA® BIM Suite";
-            string panelNameSheet = "Views";
+            string panelNameViews = "Views";
 
             // Create Tab (ignore if it already exists)
             try
@@ -21,14 +21,13 @@ namespace PNCA_BIM_Suite_Library.Application
             catch { }
 
             // Check the Existance and Create Panel
-            RibbonPanel panel = application.GetRibbonPanels(tabName).FirstOrDefault(p => p.Name == panelNameSheet);
-            if (panel == null)
+            RibbonPanel panelViews = application.GetRibbonPanels(tabName).FirstOrDefault(p => p.Name == panelNameViews);
+            if (panelViews == null)
             {
-                panel = application.CreateRibbonPanel(tabName, panelNameSheet);
+                panelViews = application.CreateRibbonPanel(tabName, panelNameViews);
             }
 
-            // DLL Path
-            string assemblyPath = Assembly.GetExecutingAssembly().Location;
+            
 
             // Button
             PushButtonData buttonDataViewCreator = new PushButtonData("ViewCreatorFromLevels",
@@ -52,8 +51,8 @@ namespace PNCA_BIM_Suite_Library.Application
             
 
             // Adding Button to the Tab
-            panel.AddItem(buttonDataViewCreator);
-            panel.AddItem(buttonDataViewDuplicator);
+            panelViews.AddItem(buttonDataViewCreator);
+            panelViews.AddItem(buttonDataViewDuplicator);
 
             return Result.Succeeded;
         }

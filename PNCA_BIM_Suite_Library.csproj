@@ -145,10 +145,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\SheetCreatorApplication.cs" />
-    <Compile Include="Application\ViewCreatorApplication.cs" />
-    <Compile Include="Application\UserManualApplication.cs" />
-    <Compile Include="Application\SheetLinkApplication.cs" />
+    <Compile Include="Application\PNCABIMSuiteApplication.cs" />
     <Compile Include="CommandData\CreateViewsFromLevelsCommand.cs" />
     <Compile Include="CommandData\DuplicateViewsCommand.cs" />
     <Compile Include="CommandData\SheetCreatorExcelInputCommand.cs" />
