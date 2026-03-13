@@ -191,6 +191,7 @@
     <Compile Include="Application\PNCABIMSuiteApplication.cs" />
     <Compile Include="CommandData\CreateViewsFromLevelsCommand.cs" />
     <Compile Include="CommandData\DuplicateViewsCommand.cs" />
+    <Compile Include="CommandData\LMSPortalCommand.cs" />
     <Compile Include="CommandData\OpenExportSheetDialogCommand.cs" />
     <Compile Include="CommandData\SheetCreatorExcelInputCommand.cs" />
     <Compile Include="CommandData\SheetCreatorUserInputCommand.cs" />
@@ -456,6 +457,15 @@
   <ItemGroup>
     <Resource Include="Resources\SheetCreatorUserInput-Light.ico" />
     <Resource Include="Resources\SheetCreatorExcelInput-Light.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Custom Name Icon.png" />
+    <Resource Include="Resources\File Format Icon.tiff" />
+    <Resource Include="Resources\Heavy_Mode.png" />
+    <Resource Include="Resources\PDF_Exporter-Dark.tiff" />
+    <Resource Include="Resources\Quick_Mode.png" />
+    <Resource Include="Resources\settings.png" />
+    <Resource Include="Resources\UserManual16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
