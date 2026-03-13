@@ -467,6 +467,9 @@
     <Resource Include="Resources\settings.png" />
     <Resource Include="Resources\UserManual16.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\PDF_Exporter-Light.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)*.*" "C:\ProgramData\Autodesk\Revit\Addins\2024\PNCA_BIM_Suite\" /E /Y

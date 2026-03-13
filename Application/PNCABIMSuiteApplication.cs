@@ -28,6 +28,7 @@ namespace PNCA_BIM_Suite_Library.Application
             RibbonPanel panelViews = GetOrCreatePanel(application, tabName, "Views");
             RibbonPanel panelSheets = GetOrCreatePanel(application, tabName, "Sheets");
             RibbonPanel panelSchedules = GetOrCreatePanel(application, tabName, "Schedules");
+            RibbonPanel panelExport = GetOrCreatePanel(application, tabName, "Export");
 
             // create buttons 
             PushButtonData userManual = CreateButton(panelPNCA, "UserManual", "User Manual", assemblyPath, "PNCA_BIM_Suite_Library.CommandData.UserManualCommand", "UserManual16.png");
@@ -39,6 +40,7 @@ namespace PNCA_BIM_Suite_Library.Application
             PushButtonData ScheduleExportWEId = CreateButton(panelSchedules,"ScheduleExportWEId", "Export Excel \r\n With Elem-ID",assemblyPath, "PNCA_BIM_Suite_Library.CommandData.ScheduleWithElementIdExporterCommand", "ScheduleExportwEID-Light.ico");
             PushButtonData ScheduleExportWFormat = CreateButton(panelSchedules, "ScheduleExportWFormat","Export Excel \r\n With Formatting",assemblyPath,"PNCA_BIM_Suite_Library.CommandData.ScheduleWithFormattingExporterCommand", "ScheduleExportwFormatting-Light.ico");
             PushButtonData ScheduleImport = CreateButton(panelSchedules, "ScheduleImport","Import Schedule", assemblyPath, "PNCA_BIM_Suite_Library.CommandData.ImportDataFromExcelCommand", "ScheduleImport-Light.ico");
+            PushButtonData PNCAExporter = CreateButton(panelExport, "PNCAExporter","Export Sheets & Views", assemblyPath, "PNCA_BIM_Suite_Library.CommandData.OpenExportSheetDialogCommand", "PDF_Exporter-Light.png");
 
             // stack buttons
             //panelPNCA.AddStackedItems(userManual, lmsPortal);

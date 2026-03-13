@@ -277,7 +277,7 @@
                 <Image Width="80"
                        Height="23"
                        VerticalAlignment="Center"
-                       Source="pack://application:,,,/PNCA_SheetExporter;component/Resources/Quick_Mode.png" />
+                       Source="pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/Quick_Mode.png" />
             </Setter.Value>
         </Setter>
 
@@ -289,7 +289,7 @@
                         <Image Width="80"
                                Height="23"
                                VerticalAlignment="Center"
-                               Source="pack://application:,,,/PNCA_SheetExporter;component/Resources/Heavy_Mode.png" />
+                               Source="pack://application:,,,/PNCA_BIM_Suite_Library;component/Resources/Heavy_Mode.png" />
                     </Setter.Value>
                 </Setter>
             </Trigger>
