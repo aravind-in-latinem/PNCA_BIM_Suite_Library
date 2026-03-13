@@ -457,14 +457,6 @@
     <Resource Include="Resources\SheetCreatorUserInput-Light.ico" />
     <Resource Include="Resources\SheetCreatorExcelInput-Light.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Custom Name Icon.png" />
-    <Resource Include="Resources\File Format Icon.tiff" />
-    <Resource Include="Resources\Heavy_Mode.png" />
-    <Resource Include="Resources\PDF_Exporter-Dark.tiff" />
-    <Resource Include="Resources\Quick_Mode.png" />
-    <Resource Include="Resources\settings.png" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)*.*" "C:\ProgramData\Autodesk\Revit\Addins\2024\PNCA_BIM_Suite\" /E /Y

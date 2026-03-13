@@ -1,8 +1,8 @@
 ﻿<RevitAddIns>
 	<AddIn Type="Application">
 		<Name>PNCA_BIM_Suite</Name>
-		<Assembly> C:\ProgramData\Autodesk\Revit\Addins\2024\PNCA_BIM_Suite\PNCA_BIM_Suite_Library.dll</Assembly>
-		<AddInId>3FA61DE1-BBBE-424B-9777-019D8CD54EDB</AddInId>
+		<Assembly>C:\ProgramData\Autodesk\Revit\Addins\2024\PNCA_BIM_Suite\PNCA_BIM_Suite_Library.dll</Assembly>
+		<AddInId>DC5F9B48-6E4F-48F4-83F8-8294ED0140E2</AddInId>
 		<FullClassName>PNCA_BIM_Suite_Library.Application.PNCABIMSuiteApplication</FullClassName>
 		<VendorId>PNCA</VendorId>
 		<VendorDescription>PNCA Automation Tools</VendorDescription>
