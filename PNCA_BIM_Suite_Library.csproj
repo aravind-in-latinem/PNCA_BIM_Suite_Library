@@ -151,6 +151,7 @@
     <Compile Include="CommandData\SheetCreatorExcelInputCommand.cs" />
     <Compile Include="CommandData\SheetCreatorUserInputCommand.cs" />
     <Compile Include="CommandData\UserManualCommand.cs" />
+    <Compile Include="CommandData\LMSPortalCommand.cs" />
     <Compile Include="Model\LookupField.cs" />
     <Compile Include="Model\ScheduledElement.cs" />
     <Compile Include="Model\ScheduledField.cs" />
@@ -300,6 +301,9 @@
   <ItemGroup>
     <Resource Include="Resources\SheetCreatorUserInput-Light.ico" />
     <Resource Include="Resources\SheetCreatorExcelInput-Light.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserManual16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
