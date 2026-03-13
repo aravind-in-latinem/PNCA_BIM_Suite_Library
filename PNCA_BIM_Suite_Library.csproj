@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug RVT24|AnyCPU'">
+    <OutputPath>bin\Debug RVT24\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AdWindows, Version=5.0.3.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Revit_All_Main_Versions_API_x64.2024.2.0\lib\net48\AdWindows.dll</HintPath>
